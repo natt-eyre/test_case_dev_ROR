@@ -35,10 +35,7 @@ describe 'Authentication' do
     end
 
     context 'when there is a user with such credentials' do
-      before do
-        user = User.new(email: 'test@example.com', password: '123456')
-        user.save!
-      end
+      before { create(:user, email: 'test@example.com', password: '123456') }
 
       it 'returns 302' do
         post_sign_in
@@ -49,7 +46,7 @@ describe 'Authentication' do
       it 'redirects to home page' do
         post_sign_in
 
-        response.should redirect_to '/'
+        expect(response).to redirect_to '/'
       end
     end
   end
