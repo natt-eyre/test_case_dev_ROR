@@ -26,5 +26,9 @@ describe User do
     it 'creates a user in the database' do
       expect { create_user }.to change(described_class, :count).by(1)
     end
+
+    it 'creates a bank account in the database' do
+      expect { create_user }.to change(BankAccount, :count).by(1)
+    end
   end
 end

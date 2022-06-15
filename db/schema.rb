@@ -10,9 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_04_205829) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_14_122436) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bank_accounts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "uuid", null: false
+    t.decimal "balance", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bank_accounts_on_user_id"
+    t.index ["uuid"], name: "index_bank_accounts_on_uuid"
+    t.check_constraint "balance >= 0::numeric", name: "positive_balance_check"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "sender_id", null: false
+    t.bigint "recipient_id", null: false
+    t.string "uuid", null: false
+    t.decimal "amount", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_transactions_on_recipient_id"
+    t.index ["sender_id"], name: "index_transactions_on_sender_id"
+    t.index ["uuid"], name: "index_transactions_on_uuid"
+    t.check_constraint "amount >= 0::numeric", name: "positive_amount_check"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -23,4 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_04_205829) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "transactions", "bank_accounts", column: "recipient_id"
+  add_foreign_key "transactions", "bank_accounts", column: "sender_id"
 end
