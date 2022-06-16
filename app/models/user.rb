@@ -32,4 +32,11 @@ class User < ApplicationRecord
   def create_bank_account
     bank_accounts.create!(uuid: SecureRandom.uuid, balance: 0)
   end
+
+  # I assumed that in the future we would have many bank accounts for a user
+  # but at the moment we support only one so I define this method to make it less verbose
+  # and after we can redefine this method if we need to
+  def default_bank_account
+    bank_accounts.first
+  end
 end

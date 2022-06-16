@@ -27,6 +27,8 @@ class Transaction < ApplicationRecord
   belongs_to :sender, class_name: 'BankAccount'
   belongs_to :recipient, class_name: 'BankAccount'
 
+  validates :amount, presence: true, numericality: { greater_than: 0, allow_nil: true }
+
   # MVP solution, if transaction creation becomes more complicated it should move to a transaction builder object
   before_validation :set_uuid, on: :create
 

@@ -37,7 +37,7 @@ require 'rails_helper'
 
 describe BankAccount do
   let(:user) { create(:user) }
-  let(:bank_account) { user.bank_accounts.first }
+  let(:bank_account) { user.default_bank_account }
 
   describe '#give_credit' do
     subject(:give_credit) { bank_account.give_credit(100) }

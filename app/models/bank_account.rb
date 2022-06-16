@@ -19,6 +19,8 @@
 class BankAccount < ApplicationRecord
   belongs_to :user
 
+  validates :balance, presence: true, numericality: { greater_than_or_equal_to: 0, allow_nill: true }
+
   # only for testing purposes as the assessment asks for this ability in p. 4
   # it doesn't really work well with p.9 of the assessment that money can't just appear into account
   def give_credit(credit)

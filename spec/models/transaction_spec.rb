@@ -33,11 +33,11 @@ describe Transaction do
     subject(:create_transaction) { described_class.create!(attributes) }
 
     before do
-      user1.bank_accounts.first.update!(balance: 100)
+      user1.default_bank_account.update!(balance: 100)
     end
 
     let(:attributes) do
-      { amount: 100, sender_id: user1.bank_accounts.first.id, recipient_id: user2.bank_accounts.first.id }
+      { amount: 100, sender_id: user1.default_bank_account.id, recipient_id: user2.default_bank_account.id }
     end
 
     it 'creates a transaction in the database' do
